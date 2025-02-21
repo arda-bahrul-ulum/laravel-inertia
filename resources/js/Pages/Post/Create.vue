@@ -1,0 +1,101 @@
+<template>
+    <div>
+        <div class="card border-0 rounded shadow">
+            <div class="card-body">
+                <h4>Tambah Post</h4>
+                <hr />
+                <form @submit.prevent="storePost">
+                    <div class="mb-3">
+                        <label class="form-label">Judul Post</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            v-model="post.title"
+                            placeholder="Masukkan Judul Post"
+                        />
+                        <div
+                            v-if="errors.title"
+                            class="mt-2 alert alert-danger"
+                        >
+                            {{ errors.title }}
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Konten</label>
+                        <textarea
+                            class="form-control"
+                            rows="5"
+                            v-model="post.content"
+                            placeholder="Masukkan Content Post"
+                        ></textarea>
+                        <div
+                            v-if="errors.content"
+                            class="mt-2 alert alert-danger"
+                        >
+                            {{ errors.content }}
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <button
+                            type="submit"
+                            class="btn btn-primary btn-md shadow-sm me-2"
+                        >
+                            Simpan
+                        </button>
+                        <button
+                            type="reset"
+                            class="btn btn-warning btn-md shadow-sm"
+                        >
+                            Reset
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+//import layout
+import LayoutApp from "../../Layouts/App.vue";
+
+import { reactive } from "vue";
+import { Inertia } from "@inertiajs/inertia";
+
+export default {
+    //layout
+    layout: LayoutApp,
+
+    //props
+    props: {
+        errors: Object,
+    },
+
+    //define Composition Api
+    setup() {
+        //state posts
+        const post = reactive({
+            title: "",
+            content: "",
+        });
+
+        //function storePost
+        function storePost() {
+            //define variable
+            let title = post.title;
+            let content = post.content;
+
+            //send data
+            Inertia.post("/posts/", {
+                title: title,
+                content: content,
+            });
+        }
+
+        return {
+            post,
+            storePost,
+        };
+    },
+};
+</script>
