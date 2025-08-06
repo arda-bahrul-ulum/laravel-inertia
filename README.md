@@ -1,4 +1,4 @@
-# Laravel Inertia CRUD Post
+# Laravel Inertia - Simple CRUD
 
 ## Deskripsi Sistem
 
